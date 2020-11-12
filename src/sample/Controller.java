@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -13,7 +14,9 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -24,9 +27,11 @@ import java.util.concurrent.TimeUnit;
 
 public class Controller {
     @FXML
+    private Label titleLabel;
+    @FXML
     private ImageView largeCover;
     @FXML
-    private HBox infoPanel;
+    private VBox infoPanel;
     @FXML
     private TextArea description;
     @FXML
@@ -43,7 +48,7 @@ public class Controller {
     private Runnable searchRun = () -> {
         loadingGif.setVisible(true);
         List<CoverImage> coverList = new ArrayList();
-        List<TVDBResult> hits = AlgoliaAPI.getSeriesHits(prevSearchTerm, "Movie", 30);
+        List<TVDBResult> hits = AlgoliaAPI.getSeriesHits(prevSearchTerm, "", 30);
         int actualHits = 0;
         for (TVDBResult result : hits)
             if (isValid(result)) {
@@ -97,12 +102,21 @@ public class Controller {
         return (result.getImage() != null &&
                 result.getImage().length() >= 1 &&
                 !result.getImage().equals("https://artworks.thetvdb.com/banners/images/missing/movie.jpg") &&
+                !result.getImage().equals("https://artworks.thetvdb.com/banners/images/missing/series.jpg") &&
                 result.getOverviews() != null &&
                 result.getOverviews().containsKey("eng"));
     }
 
     private String buildInfo(TVDBResult result) {
-        return String.format("%s\n%s\n%s",result.getName(),"\u2500".repeat(result.getName().length()),result.getOverviews().get("eng"));
+        String year = "";
+        if (result.getReleased() != null) {
+            if (!result.getName().contains(result.getReleased()))
+                year = String.format("(%s)", result.getReleased());
+        } else if (result.getFirstAired() != null) {
+            if (!result.getName().contains(result.getFirstAired()))
+                year = String.format("(%s)", result.getFirstAired());
+        }
+        return String.format("%s %s\n\n%s",result.getName(), year,result.getOverviews().get("eng"));
     }
 
     private CoverImage addCoverElement(TVDBResult result) {
@@ -127,6 +141,7 @@ public class Controller {
         imgView.setOnMouseClicked(mouseEvent -> {
             if (imgView.getInfo().getOverviews() != null && imgView.getInfo().getOverviews().containsKey("eng")) {
                 description.setText(buildInfo(imgView.getInfo()));
+                titleLabel.setText(imgView.getInfo().getName());
                 largeCover.setImage(imgView.getImage());
                 flowPane.setEffect(new GaussianBlur(25));
                 searchField.setEffect(new GaussianBlur(25));
