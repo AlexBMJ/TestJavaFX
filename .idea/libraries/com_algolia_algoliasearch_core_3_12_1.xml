@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="com.algolia:algoliasearch-core:3.12.1" type="repository">
+    <properties maven-id="com.algolia:algoliasearch-core:3.12.1" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/algoliasearch-core-3.12.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-databind-2.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-datatype-jsr310-2.11.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
