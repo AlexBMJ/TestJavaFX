@@ -46,22 +46,25 @@ public class Controller {
         List<TVDBResult> hits = AlgoliaAPI.getSeriesHits(prevSearchTerm, "Movie", 30);
         int actualHits = 0;
         for (TVDBResult result : hits)
-            if (result.getImage() != null && result.getImage().length() >= 1 && !result.getImage().equals("https://artworks.thetvdb.com/banners/images/missing/movie.jpg")) {
+            if (isValid(result)) {
                 actualHits++;
                 Platform.runLater(() -> coverList.add(addCoverElement(result)));
             }
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(actualHits);
-        while (coverList.size() < actualHits) {
-            try {
-                TimeUnit.MILLISECONDS.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        if (actualHits > 0) {
+            ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(actualHits);
+            while (coverList.size() < actualHits) {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            for (CoverImage covimg : coverList)
+                executor.execute(covimg.fetchImage);
+            executor.shutdown();
         }
-        for (CoverImage covimg : coverList)
-            executor.execute(covimg.fetchImage);
-        executor.shutdown();
         Platform.runLater(() -> loadingGif.setVisible(false));
+        return;
     };
 
     @FXML
@@ -80,14 +83,26 @@ public class Controller {
 
     private void searchMovie() {
         String searchTerm = searchField.getText();
-        if (!prevSearchTerm.equals(searchTerm)) {
+        if (!prevSearchTerm.equals(searchTerm) && searchTerm.length() > 1) {
             prevSearchTerm = searchTerm;
             flowPane.getChildren().clear();
             Thread t = new Thread(searchRun);
             t.setDaemon(true);
             t.start();
         } else
-            loadingGif.setVisible(true);
+            loadingGif.setVisible(false);
+    }
+
+    private boolean isValid(TVDBResult result) {
+        return (result.getImage() != null &&
+                result.getImage().length() >= 1 &&
+                !result.getImage().equals("https://artworks.thetvdb.com/banners/images/missing/movie.jpg") &&
+                result.getOverviews() != null &&
+                result.getOverviews().containsKey("eng"));
+    }
+
+    private String buildInfo(TVDBResult result) {
+        return String.format("%s\n%s\n%s",result.getName(),"\u2500".repeat(result.getName().length()),result.getOverviews().get("eng"));
     }
 
     private CoverImage addCoverElement(TVDBResult result) {
@@ -111,7 +126,7 @@ public class Controller {
 
         imgView.setOnMouseClicked(mouseEvent -> {
             if (imgView.getInfo().getOverviews() != null && imgView.getInfo().getOverviews().containsKey("eng")) {
-                description.setText(imgView.getInfo().getOverviews().get("eng"));
+                description.setText(buildInfo(imgView.getInfo()));
                 largeCover.setImage(imgView.getImage());
                 flowPane.setEffect(new GaussianBlur(25));
                 searchField.setEffect(new GaussianBlur(25));

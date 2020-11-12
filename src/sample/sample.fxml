@@ -24,7 +24,7 @@
          <children>
             <ImageView blendMode="SRC_ATOP" fitHeight="65.0" fitWidth="143.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
-                  <Image url="file:/E:/Java%20Projects/Netflex/src/main/resources/images/netflex_logo_small.png" />
+                  <Image url="@../netflex_logo.png" />
                </image>
                <GridPane.margin>
                   <Insets left="70.0" />
@@ -39,7 +39,7 @@
             </ImageView>
             <ImageView fitHeight="39.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
-                  <Image url="file:/E:/Java%20Projects/Netflex/src/main/resources/images/menu.png" />
+                  <Image url="@../menu.png" />
                </image>
                <GridPane.margin>
                   <Insets left="10.0" />
@@ -50,7 +50,7 @@
             </ImageView>
             <ImageView fitHeight="36.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <image>
-                  <Image url="file:/E:/Java%20Projects/Netflex/src/main/resources/images/search.png" />
+                  <Image url="@../search.png" />
                </image>
                <GridPane.margin>
                   <Insets right="10.0" />
@@ -83,6 +83,9 @@
                <StackPane.margin>
                   <Insets top="15.0" />
                </StackPane.margin>
+               <font>
+                  <Font size="13.0" />
+               </font>
             </TextField>
             <ImageView fx:id="loadingGif" fitHeight="100.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_CENTER">
                <image>
