@@ -77,14 +77,6 @@ public class Controller {
         prevSearchTerm = "";
         loadingGif.setVisible(false);
         infoPanel.setVisible(false);
-        infoPanel.setOnMouseClicked(me -> {
-            System.out.printf("       x: %s y: %s\nscreen x: %s y: %s\n scene x: %s y: %s\n cover x: %s y: %s\n", me.getX(), me.getY(), me.getScreenX(), me.getScreenY(), me.getSceneX(), me.getSceneY(), largeCover.getBoundsInParent().getMaxX(), largeCover.getBoundsInParent().getMaxY());
-            BoundingBox bb = new BoundingBox(me.getX(), me.getY(), 1, 1);
-            System.out.println(bb);
-            System.out.println(largeCover.getBoundsInParent());
-            if (largeCover.getBoundsInParent().intersects(bb))
-                System.out.println("OwO");
-        });
     }
 
     public void checkSearchTimer() {
@@ -126,8 +118,7 @@ public class Controller {
         return String.format("%s %s\n\n%s",result.getName(), year,result.getOverviews().get("eng"));
     }
 
-    private void closeInfoPanel() {
-        System.out.println();
+    public void closeInfoPanel() {
         infoPanel.setVisible(false);
         flowPane.setEffect(null);
         searchField.setEffect(null);

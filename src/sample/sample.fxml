@@ -113,7 +113,7 @@
                               <DropShadow height="100.0" radius="49.5" width="100.0" />
                            </effect>
                         </ImageView>
-                        <ImageView fx:id="closeIcon" fitHeight="30.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                        <ImageView fx:id="closeIcon" fitHeight="30.0" fitWidth="74.0" onMouseClicked="#closeInfoPanel" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
                            <image>
                               <Image url="@../close.png" />
                            </image>
