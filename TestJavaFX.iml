@@ -23,5 +23,6 @@
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="com.algolia:algoliasearch-core:3.12.1" level="project" />
     <orderEntry type="library" name="com.algolia:algoliasearch-apache-uber:3.12.1" level="project" />
+    <orderEntry type="library" name="lib_linux" level="project" />
   </component>
 </module>
