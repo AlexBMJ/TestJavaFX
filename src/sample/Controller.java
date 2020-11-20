@@ -4,19 +4,19 @@ import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.BoundingBox;
 import javafx.scene.Cursor;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -27,11 +27,11 @@ import java.util.concurrent.TimeUnit;
 
 public class Controller {
     @FXML
-    private Label titleLabel;
+    private ImageView closeIcon;
     @FXML
     private ImageView largeCover;
     @FXML
-    private VBox infoPanel;
+    private HBox infoPanel;
     @FXML
     private TextArea description;
     @FXML
@@ -77,7 +77,14 @@ public class Controller {
         prevSearchTerm = "";
         loadingGif.setVisible(false);
         infoPanel.setVisible(false);
-        infoPanel.setOnMouseClicked(mouseEvent -> {infoPanel.setVisible(false);flowPane.setEffect(null);searchField.setEffect(null);});
+        infoPanel.setOnMouseClicked(me -> {
+            System.out.printf("       x: %s y: %s\nscreen x: %s y: %s\n scene x: %s y: %s\n cover x: %s y: %s\n", me.getX(), me.getY(), me.getScreenX(), me.getScreenY(), me.getSceneX(), me.getSceneY(), largeCover.getBoundsInParent().getMaxX(), largeCover.getBoundsInParent().getMaxY());
+            BoundingBox bb = new BoundingBox(me.getX(), me.getY(), 1, 1);
+            System.out.println(bb);
+            System.out.println(largeCover.getBoundsInParent());
+            if (largeCover.getBoundsInParent().intersects(bb))
+                System.out.println("OwO");
+        });
     }
 
     public void checkSearchTimer() {
@@ -119,6 +126,13 @@ public class Controller {
         return String.format("%s %s\n\n%s",result.getName(), year,result.getOverviews().get("eng"));
     }
 
+    private void closeInfoPanel() {
+        System.out.println();
+        infoPanel.setVisible(false);
+        flowPane.setEffect(null);
+        searchField.setEffect(null);
+    }
+
     private CoverImage addCoverElement(TVDBResult result) {
         CoverImage imgView = new CoverImage(new Image("placeholder.png"), result);
         imgView.setPreserveRatio(true);
@@ -141,7 +155,6 @@ public class Controller {
         imgView.setOnMouseClicked(mouseEvent -> {
             if (imgView.getInfo().getOverviews() != null && imgView.getInfo().getOverviews().containsKey("eng")) {
                 description.setText(buildInfo(imgView.getInfo()));
-                titleLabel.setText(imgView.getInfo().getName());
                 largeCover.setImage(imgView.getImage());
                 flowPane.setEffect(new GaussianBlur(25));
                 searchField.setEffect(new GaussianBlur(25));

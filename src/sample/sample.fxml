@@ -101,19 +101,11 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </ImageView>
-            <VBox fx:id="infoPanel" alignment="CENTER" StackPane.alignment="CENTER">
+            <HBox fx:id="infoPanel" alignment="CENTER">
                <children>
-                  <Label fx:id="titleLabel" text="Loading..." textFill="WHITE" underline="true" VBox.vgrow="ALWAYS">
-                     <font>
-                        <Font name="Segoe UI Semibold" size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets right="600.0" />
-                     </VBox.margin>
-                  </Label>
-                  <HBox alignment="CENTER">
+                  <StackPane maxHeight="500.0" maxWidth="500.0" minHeight="500.0" minWidth="340.0">
                      <children>
-                        <ImageView fx:id="largeCover" fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                        <ImageView fx:id="largeCover" fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../placeholder.png" />
                            </image>
@@ -121,25 +113,39 @@
                               <DropShadow height="100.0" radius="49.5" width="100.0" />
                            </effect>
                         </ImageView>
-                        <TextArea fx:id="description" editable="false" maxHeight="500.0" maxWidth="600.0" minHeight="120.0" minWidth="120.0" promptText="Loading..." style="-fx-background-color: rgb(40,40,40); -fx-border-color: rgb(40,40,40); -fx-text-fill: white;" stylesheets="@../dark.css" wrapText="true">
-                           <font>
-                              <Font name="Segoe UI Semibold Italic" size="20.0" />
-                           </font>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
+                        <ImageView fx:id="closeIcon" fitHeight="30.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                           <image>
+                              <Image url="@../close.png" />
+                           </image>
                            <effect>
-                              <DropShadow height="150.0" radius="74.5" width="150.0">
-                                 <color>
-                                    <Color opacity="0.7993079423904419" />
-                                 </color>
-                              </DropShadow>
+                              <Glow level="1.0" />
                            </effect>
-                        </TextArea>
+                           <StackPane.margin>
+                              <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                           </StackPane.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
                      </children>
-                  </HBox>
+                  </StackPane>
+                  <TextArea fx:id="description" editable="false" maxHeight="500.0" maxWidth="600.0" minHeight="120.0" minWidth="120.0" promptText="Loading..." style="-fx-background-color: rgb(40,40,40); -fx-border-color: rgb(40,40,40); -fx-text-fill: white;" stylesheets="@../dark.css" wrapText="true">
+                     <font>
+                        <Font name="Segoe UI Semibold Italic" size="20.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <effect>
+                        <DropShadow height="125.0" offsetX="10.0" radius="43.25" width="50.0">
+                           <color>
+                              <Color opacity="0.8500000238418579" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </TextArea>
                </children>
-            </VBox>
+            </HBox>
          </children>
          <opaqueInsets>
             <Insets />
